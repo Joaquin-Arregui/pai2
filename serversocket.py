@@ -23,7 +23,7 @@ def add_log(text):
     with open('logs/'+logname, 'a') as f:
         if text == 'The data has been recieved succesfully':
             f.write('+ Success\n')
-        elif text == 'The data has been manipulated with a Man-in-the-middle Attack':
+        elif text == 'The data has been manipulated with a Man-in-the-middle Attack' or text == 'The data has been retained with a Man-in-the-middle Attack':
             f.write('- Man-In-The-Middle\n')
         elif text == 'The data message has been duplicated with a replay attack':
             f.write('- Replay\n')
@@ -132,8 +132,8 @@ def server():
 def main():
     def report_scheduler():
         while True:
+            time.sleep(1200)
             send_report()
-            time.sleep(60)
 
     server_thread = threading.Thread(target=server)
     report_thread = threading.Thread(target=report_scheduler)

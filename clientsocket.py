@@ -52,16 +52,16 @@ def client():
     HOST = "127.0.0.1"
     PORT = 3030
     
+    msg = create_message()
+    mac = create_mac(msg)
+    mac_hex = mac.digest().hex()
+    data = msg + ' --|-- ' + mac_hex
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((HOST, PORT))
-        msg = create_message()
-        mac = create_mac(msg)
-        mac_hex = mac.digest().hex()
-        data = msg + ' --|-- ' + mac_hex
         s.sendall(data.encode('utf-8'))
         data = s.recv(1024).decode('utf-8')
     
-    print(f"Received\n{data!r}")
+    print(f"Received: {data!r}")
 
 if __name__ == "__main__":
     client()
